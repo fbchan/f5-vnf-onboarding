@@ -1,10 +1,11 @@
+sleep 30
 mkdir /config/cloud
 curl -o /config/cloud/f5-cloud-libs.tar.gz --silent --fail --retry 20 -L https://api.github.com/repos/F5Networks/f5-cloud-libs/tarball/develop
 tar xvzf /config/cloud/f5-cloud-libs.tar.gz -C /config/cloud/
 mv /config/cloud/F5Networks-f5-cloud-libs-* /config/cloud/f5-cloud-libs
 cd /config/cloud/f5-cloud-libs
 npm install --production
-
+sleep 5
 curl -ko /config/bigiplicmgr.py --silent --fail --retry 20 -L https://raw.githubusercontent.com/fbchan/bigiplicmgr/master/bigiplicmgr.py
 chmod u+x /config/bigiplicmgr.py
 
