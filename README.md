@@ -1,2 +1,2 @@
-# f5-vnf-onboarding
-# Cloudify blueprint to on-board F5 VNF
+# Cloudify Blueprint to onboard F5 VNF on OpenStack
+
