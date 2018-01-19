@@ -127,6 +127,12 @@ node_templates:
     type: cloudify.openstack.nodes.Port
     properties:
       openstack_config: *openstack_config
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        create:
+          inputs:
+            args:
+              allowed_address_pairs: [{"ip_address": "0.0.0.0/0"}]
     relationships:
     - type: cloudify.relationships.contained_in
       target: outside_network
@@ -134,13 +140,17 @@ node_templates:
       target: outside_subnet
     - type: cloudify.openstack.port_connected_to_security_group
       target: security_group
-    - type: cloudify.openstack.port_connected_to_floating_ip
-      target: floating_ip_app
 
   inside_port:
     type: cloudify.openstack.nodes.Port
     properties:
       openstack_config: *openstack_config
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        create:
+          inputs:
+            args:
+              allowed_address_pairs: [{"ip_address": "0.0.0.0/0"}]
     relationships:
     - type: cloudify.relationships.contained_in
       target: inside_network
@@ -160,8 +170,6 @@ node_templates:
       target: mgmt_subnet
     - type: cloudify.openstack.port_connected_to_security_group
       target: security_group
-    - type: cloudify.openstack.port_connected_to_floating_ip
-      target: floating_ip_mgmt
 
   outside_subnet:
     type: cloudify.openstack.nodes.Subnet
@@ -230,22 +238,6 @@ node_templates:
           protocol: "ICMP"
           port_range_min: 0
           port_range_max: 0
-
-  floating_ip_mgmt:
-    type: cloudify.openstack.nodes.FloatingIP
-    properties:
-      openstack_config: *openstack_config
-      floatingip:
-        floating_network_name: { get_secret: external_network_name }
-
-  floating_ip_app:
-    type: cloudify.openstack.nodes.FloatingIP
-    properties:
-      openstack_config: *openstack_config
-      floatingip:
-        floating_network_name: { get_secret: external_network_name }
-
-
 
 outputs:
 
